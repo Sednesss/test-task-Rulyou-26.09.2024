@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class UpdateController extends Controller
 {
@@ -29,10 +30,10 @@ class UpdateController extends Controller
                 ], 404);
             }
 
-            $payload = $request->only([
-                'full_name',
-                'role',
-                'efficiency'
+            $payload = $request->validate([
+                'full_name' => 'required|string',
+                'role' => 'required|string',
+                'efficiency' => 'required|numeric',
             ]);
 
             $user->update($payload);
@@ -47,6 +48,9 @@ class UpdateController extends Controller
                     'efficiency' => $user->efficiency
                 ]
             ];
+        } catch (ValidationException $e) {
+            $responseBody['result'] = $e->validator->errors()->first();
+            $statusCode = 422;
         } catch (Exception $e) {
             $responseBody['result'] = $e->getMessage();
             Log::info('App::User::UpdateController: ' . $e->getMessage());

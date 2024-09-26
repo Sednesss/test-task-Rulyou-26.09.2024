@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::as('v1::')->group(function () {
     Route::withoutMiddleware(['auth:api'])->group(function () {
         Route::as('users::')->group(function () {
-            Route::get('/get', UserShowController::class)->name('list');
+            Route::get('/get/{id?}', UserShowController::class)->name('list');
             Route::post('/create', UserCreateController::class)->name('list');
             Route::patch('/update/{id}', UserUpdateController::class)->name('list');
             Route::delete('/delete/{id}', UserDestroyController::class)->name('destroy');

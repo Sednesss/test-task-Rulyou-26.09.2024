@@ -1,6 +1,10 @@
 dev:
 	docker-compose -f docker-compose-dev.yml up -d --build
 
+init-app:
+	docker exec -it test_task_26092024_app php artisan key:generate
+	docker exec -it test_task_26092024_app php artisan migrate
+
 start:
 	docker-compose -f docker-compose-dev.yml up -d
 

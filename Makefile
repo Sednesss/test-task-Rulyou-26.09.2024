@@ -15,3 +15,8 @@ nginx:
 
 laravel:
 	docker exec -it test_task_26092024_app bash
+
+cache-clear:
+	docker exec -it test_task_26092024_app php artisan cache:clear
+	docker exec -it test_task_26092024_app php artisan config:clear
+	docker exec -it test_task_26092024_app php artisan route:clear

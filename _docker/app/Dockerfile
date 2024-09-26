@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
     bash \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-install mbstring pcntl bcmath pgsql pdo_pgsql
+RUN docker-php-ext-install mbstring pcntl bcmath pdo_mysql
 
 RUN pecl install redis && docker-php-ext-enable redis
 

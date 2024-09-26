@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+    app:
+        build:
+            context: .
+            dockerfile: _docker/app/Dockerfile
+        container_name: test_task_26092024_app
+        image: test_task_26092024_app
+        restart: unless-stopped
+        tty: true
+        expose:
+            - "9000"
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www/test-task-php-rulyou-26.09.2024/app
+        volumes:
+            - ./:/var/www/test-task-php-rulyou-26.09.2024/app
+            - ./_docker/app/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - test_task_26092024_bridge
+
+    webserver:
+        image: nginx:alpine
+        container_name: test_task_26092024_webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./_docker/nginx/default.conf.template:/etc/nginx/templates/default.conf.template
+            - ./:/var/www/test-task-php-rulyou-26.09.2024/app
+        environment:
+            SERVER_NAME: "localhost"
+            APP_PUBLIC_PATH: "/var/www/test-task-php-rulyou-26.09.2024/app/public"
+            APP_CONTAINER_NAME: "test_task_26092024_app"
+            APP_PORT: "9000"
+        depends_on:
+            - app
+        networks:
+            - test_task_26092024_bridge
+
+networks:
+    test_task_26092024_bridge:
+        driver: bridge

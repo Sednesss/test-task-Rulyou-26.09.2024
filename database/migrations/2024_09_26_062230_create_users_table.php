@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('role');
             $table->integer('efficiency');
-            $table->timestamps();
         });
     }
 

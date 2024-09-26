@@ -5,7 +5,7 @@ ARG USER
 ARG APP_MOUNTING_AREA
 ENV UID=${UID:-1000} \ 
     USER=${USER:-sammy} \
-    APP_MOUNTING_AREA=${APP_MOUNTING_AREA:-/var/www/mews-integration/app}
+    APP_MOUNTING_AREA=${APP_MOUNTING_AREA:-/var/www/test-task-php-rulyou-26.09.2024/app}
 
 RUN apt-get update && apt-get install -y \
     git \

@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class CreateController extends Controller
 {
@@ -20,7 +21,11 @@ class CreateController extends Controller
         ];
 
         try {
-            $payload = $request->all();
+            $payload = $request->validate([
+                'full_name' => 'required|string',
+                'role' => 'required|string',
+                'efficiency' => 'required|numeric',
+            ]);
 
             $user = User::create([
                 'full_name' => $payload['full_name'],
@@ -35,6 +40,9 @@ class CreateController extends Controller
                     'id' => $user->id
                 ]
             ];
+        } catch (ValidationException $e) {
+            $responseBody['result'] = $e->validator->errors()->first();
+            $statusCode = 422;
         } catch (Exception $e) {
             $responseBody['result'] = $e->getMessage();
             Log::info('App::User::CreateController: ' . $e->getMessage());

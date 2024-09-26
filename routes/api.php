@@ -12,7 +12,7 @@ Route::as('v1::')->group(function () {
             Route::get('/get/{id?}', UserShowController::class)->name('list');
             Route::post('/create', UserCreateController::class)->name('list');
             Route::patch('/update/{id}', UserUpdateController::class)->name('list');
-            Route::delete('/delete/{id}', UserDestroyController::class)->name('destroy');
+            Route::delete('/delete/{id?}', UserDestroyController::class)->name('destroy');
         });
     });
 });

